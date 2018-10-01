@@ -27,6 +27,7 @@
     "eslint-plugin-standard": "^4.0.0",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
+    "firebaseui": "^3.4.1",
     "multer": "^1.4.0"
   },
   "dependencies": {}
