@@ -51,11 +51,8 @@ function getOluet(req, res) {
 function getOlutByName(req, res) {
     let nimi = req.params.nimi || 0,
         result = {};
-    console.log(nimi);
     for (let i = 0; i < oluet.length; i++) {
-        console.log("ffwe");
         if (oluet[i].nimi === nimi) {
-            console.log("löyty");
             result = oluet[i];
             break;
         }
@@ -64,7 +61,20 @@ function getOlutByName(req, res) {
     res.json(result);
 }
 
+function getOlutByValmistaja(req, res){
+    let valmistaja = req.params.valmistaja || 0,
+        result = {};
+    for(let i = 0; i < oluet.length; i++){
+        if (oluet[i].valmistaja === valmistaja){
+            result = oluet[i];
+            break;
+        }
+    }
+    res.json(result);
+}
+
 module.exports = {
     getOluet: getOluet,
-    getOlutByName: getOlutByName
+    getOlutByName: getOlutByName,
+    getOlutByValmistaja: getOlutByValmistaja
 };

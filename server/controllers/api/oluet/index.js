@@ -7,6 +7,7 @@ const
 let router = express.Router();
 
 router.get('/', oluetService.getOluet);
-router.get('/:nimi', oluetService.getOlutByName);
+router.get('/nimi/:nimi', oluetService.getOlutByName);
+router.get('/valmistaja/:valmistaja', oluetService.getOlutByValmistaja);
 
 module.exports = router;
