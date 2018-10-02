@@ -28,34 +28,12 @@
         let resDiv = document.getElementById("resultDiv");
         resDiv.innerHTML = "";
         for (let i = 0; i < res.length; i++) {
-
-            // Hae nykyisen oluen tyypit listasta merkkijonoksi
-            let tyypit = "";
-            for (let j = 0; j < res[i].tyyppi.length; j++) {
-                tyypit += res[i].tyyppi[j];
-                if (j < res[i].tyyppi.length - 1) tyypit += ", ";
-            }
-
-            // Hae nykyisen oluen maut listasta merkkijonoksi
-            let maut = "";
-            for (let j = 0; j < res[i].maku.length; j++) {
-                maut += res[i].maku[j];
-                if (j < res[i].maku.length - 1) maut += ", ";
-            }
-
-            // Hae nykyisen oluen ruokasuositukset listasta merkkijonoksi
-            let ruuat = "";
-            for (let j = 0; j < res[i].ruoka.length; j++) {
-                ruuat += res[i].ruoka[j];
-                if (j < res[i].ruoka.length - 1) ruuat += ", ";
-            }
-
             resDiv.innerHTML += "<h3>" + res[i].nimi + "</h3>";
             resDiv.innerHTML += "<p>Valmistaja: " + res[i].valmistaja;
-            resDiv.innerHTML += "<p>Tyyppi: " + tyypit;
+            resDiv.innerHTML += "<p>Tyyppi: " + res[i].tyyppi;
             resDiv.innerHTML += "<p>Alkoholi: " + res[i].alkoholi + "%";
-            resDiv.innerHTML += "<p>Kuvaus: " + maut;
-            resDiv.innerHTML += "<p>Suositukset: " + ruuat;
+            resDiv.innerHTML += "<p>Kuvaus: " + res[i].maku;
+            resDiv.innerHTML += "<p>Suositukset: " + res[i].ruoka;
             resDiv.innerHTML += "<br>";
         }
     }

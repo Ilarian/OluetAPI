@@ -1,8 +1,10 @@
 'use strict';
 
-const _ = require('lodash');
+const
+    _ = require('lodash'),
+    XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
-function randomString(length, chars) {
+function randomString(length=32, chars="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ") {
     let result = '';
     for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
     return result;
@@ -17,29 +19,29 @@ firebase.initializeApp({
     databaseURL: "https://olutapi-96b26.firebaseio.com"
 });
 
+//populateDb();
+
 function populateDb() {
-    //TODO: ota alkon sivuilta raavitusta jsonista tiedot ja puske ne firebaseen
-    firebase.database().ref(randomString(32, "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"))
-        .set({
-            nimi: "Firestone Pivo Hoppy Pils",
-            valmistaja: "Firestone Walker",
-            alkoholi: 5.3,
-            tyyppi: ["pils"],
-            maku: [
-                "kullankeltainen",
-                "keskitäyteläinen",
-                "voimakkaasti humaloitu",
-                "aromikas",
-                "hedelmäinen",
-                "sitruksinen"
-            ],
-            ruoka: [
-                "grilliruoka",
-                "itämainen ruoka",
-                "pasta ja pizza",
-                "vähärasvainen kala"
-            ]
-        });
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            let obj = JSON.parse(xmlhttp.responseText);
+            for (let i = 0; i < obj.length; i++) {
+                firebase.database().ref(randomString())
+                    .set({
+                        nimi: obj[i].nimi,
+                        valmistaja: obj[i].valmistaja,
+                        alkoholi: obj[i].alkoholi,
+                        tyyppi: obj[i].tyyppi,
+                        maku: obj[i].maku,
+                        ruoka: obj[i].ruoka
+                    });
+            }
+        }
+    };
+    xmlhttp.open("GET", "file:///home/juha/WebstormProjects/nodejs-exercise/AlkoDatabase.json", true);
+    xmlhttp.send();
+
 }
 
 function getOluet(req, res) {
@@ -83,28 +85,12 @@ function getOlutByGeneralQuery(req, res) {
                 result[result.length] = item.val();
             } else if (_.includes(item.child("nimi").val().toLowerCase(), haku.toLowerCase())) {
                 result[result.length] = item.val();
-            } else {
-                let match = false;
-                for (let i = 0; i < item.child("tyyppi").val().length; i++) {
-                    if (_.includes(item.child("tyyppi").val()[i].toLowerCase(), haku.toLowerCase())) {
-                        match = true;
-                    }
-                }
-                if (!match) {
-                    for (let i = 0; i < item.child("maku").val().length; i++) {
-                        if (_.includes(item.child("maku").val()[i].toLowerCase(), haku.toLowerCase())) {
-                            match = true;
-                        }
-                    }
-                }
-                if (!match) {
-                    for (let i = 0; i < item.child("ruoka").val().length; i++) {
-                        if (_.includes(item.child("ruoka").val()[i].toLowerCase(), haku.toLowerCase())) {
-                            match = true;
-                        }
-                    }
-                }
-                if (match) result[result.length] = item.val();
+            } else if (_.includes(item.child("tyyppi").val().toLowerCase(), haku.toLowerCase())) {
+                result[result.length] = item.val();
+            } else if (_.includes(item.child("maku").val().toLowerCase(), haku.toLowerCase())) {
+                result[result.length] = item.val();
+            } else if (_.includes(item.child("ruoka").val().toLowerCase(), haku.toLowerCase())) {
+                result[result.length] = item.val();
             }
         });
         res.json(result);
