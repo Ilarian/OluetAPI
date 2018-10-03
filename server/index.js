@@ -20,6 +20,8 @@ module.exports = function() {
 
         server.use(bodyParser.json());
 
+        server.use(express.static('app/resources'));
+
         server.engine('.hbs', expressHandlebars({
             defaultLayout: 'default',
             layoutsDir: config.viewDir + '/layouts',
