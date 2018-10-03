@@ -26,8 +26,12 @@
     function showResult(json) {
         let res = JSON.parse(json);
         let resDiv = document.getElementById("resultDiv");
-        resDiv.innerHTML = "";
+        let n = 0;
+        let innerHtml = "";
         for (let i = 0; i < res.length; i++) {
+            console.log("Adding HTML (" + n++ + ") - " + res[i].nimi);
+            // element.innerHTML +=  <---- Tosi raskas operaatio, siks appendataan stringiä ja lopuksi yksi kutsu
+            /*
             resDiv.innerHTML += "<h3>" + res[i].nimi + "</h3>";
             resDiv.innerHTML += "<p>Valmistaja: " + res[i].valmistaja;
             resDiv.innerHTML += "<p>Tyyppi: " + res[i].tyyppi;
@@ -35,6 +39,14 @@
             resDiv.innerHTML += "<p>Kuvaus: " + res[i].maku;
             resDiv.innerHTML += "<p>Suositukset: " + res[i].ruoka;
             resDiv.innerHTML += "<br>";
+            */
+            innerHtml += "<h3>" + res[i].nimi + "</h3>";
+            innerHtml += "<p>Valmistaja: " + res[i].valmistaja + "</p>";
+            innerHtml += "<p>Tyyppi: " + res[i].tyyppi + "</p>";
+            innerHtml += "<p>Alkoholi: " + res[i].alkoholi + "%</p>";
+            innerHtml += "<p>Kuvaus: " + res[i].maku + "</p>";
+            innerHtml += "<p>Suositukset: " + res[i].ruoka + "</p><br>";
         }
+        resDiv.innerHTML = innerHtml;
     }
 </script>

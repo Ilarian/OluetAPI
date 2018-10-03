@@ -27,6 +27,7 @@ function populateDb() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             let obj = JSON.parse(xmlhttp.responseText);
             for (let i = 0; i < obj.length; i++) {
+                console.log("Pushing to firebase: " + obj[i].nimi);
                 firebase.database().ref(randomString())
                     .set({
                         nimi: obj[i].nimi,
@@ -37,9 +38,12 @@ function populateDb() {
                         ruoka: obj[i].ruoka
                     });
             }
+            console.log("\nFirebase population done.")
         }
     };
-    xmlhttp.open("GET", "file:///home/juha/WebstormProjects/nodejs-exercise/AlkoDatabase.json", true);
+    let jsonFile = "file://" + __dirname + "/../../../oluet.json";
+    console.log(jsonFile);
+    xmlhttp.open("GET", jsonFile, true);
     xmlhttp.send();
 
 }
@@ -56,7 +60,7 @@ function getOlutByName(req, res) {
     firebase.database().ref().on("value", function(snapshot) {
         snapshot.forEach(item => {
             if (_.includes(item.child("nimi").val().toLowerCase(), nimi.toLowerCase())) {
-                result[result.length] = item.val();
+                result.push(item.val());
             }
         });
         res.json(result);
@@ -69,7 +73,7 @@ function getOlutByValmistaja(req, res){
     firebase.database().ref().on("value", function(snapshot) {
         snapshot.forEach(item => {
             if (_.includes(item.child("valmistaja").val().toLowerCase(), valmistaja.toLowerCase())) {
-                result[result.length] = item.val();
+                result.push(item.val());
             }
         });
         res.json(result);
@@ -80,21 +84,60 @@ function getOlutByGeneralQuery(req, res) {
     let haku = req.params.haku || 0,
         result = [];
     firebase.database().ref().on("value", function(snapshot) {
+        let n = 0;
         snapshot.forEach(item => {
+            console.log("Query - comparing (" + n++ + "): " + item.child("nimi").val());
             if (_.includes(item.child("valmistaja").val().toLowerCase(), haku.toLowerCase())) {
-                result[result.length] = item.val();
+                result.push(item.val());
             } else if (_.includes(item.child("nimi").val().toLowerCase(), haku.toLowerCase())) {
-                result[result.length] = item.val();
+                result.push(item.val());
             } else if (_.includes(item.child("tyyppi").val().toLowerCase(), haku.toLowerCase())) {
-                result[result.length] = item.val();
+                result.push(item.val());
             } else if (_.includes(item.child("maku").val().toLowerCase(), haku.toLowerCase())) {
-                result[result.length] = item.val();
+                result.push(item.val());
             } else if (_.includes(item.child("ruoka").val().toLowerCase(), haku.toLowerCase())) {
-                result[result.length] = item.val();
+                result.push(item.val());
             }
         });
+        console.log("Items in query result: " + result.length);
+        let sizeBytes = roughSizeOfObject(result);
+        console.log("Memory size of result object: " + sizeBytes / 1000 + "kB");
         res.json(result);
     });
+}
+
+function roughSizeOfObject( object ) {
+
+    var objectList = [];
+    var stack = [ object ];
+    var bytes = 0;
+
+    while ( stack.length ) {
+        var value = stack.pop();
+
+        if ( typeof value === 'boolean' ) {
+            bytes += 4;
+        }
+        else if ( typeof value === 'string' ) {
+            bytes += value.length * 2;
+        }
+        else if ( typeof value === 'number' ) {
+            bytes += 8;
+        }
+        else if
+        (
+            typeof value === 'object'
+            && objectList.indexOf( value ) === -1
+        )
+        {
+            objectList.push( value );
+
+            for( var i in value ) {
+                stack.push( value[ i ] );
+            }
+        }
+    }
+    return bytes;
 }
 
 module.exports = {
