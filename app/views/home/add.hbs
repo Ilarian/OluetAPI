@@ -1,0 +1,39 @@
+<h1>Olut API</h1>
+<a href="http://localhost:8082">Etusivulle</a>
+<h2>Lisää uusi olut tietokantaan</h2>
+<form onsubmit="addBeer()" action="#">
+    <h3>Oluen nimi:</h3>
+    <input type="text" id="nimi"/>
+    <h3>Oluen valmistaja:</h3>
+    <input type="text" id="valmistaja"/>
+    <h3>Oluen tyyppi</h3>
+    <input type="text" id="tyyppi"/>
+    <h3>Oluen alkoholipitoisuus</h3>
+    <input type="text" id="alkoholi"/>
+    <h3>Oluen kuvaus</h3>
+    <input type="text" id="kuvaus"/>
+    <h3>Suositukset oluelle (esim. minkä ruoan kanssa?)</h3>
+    <input type="text" id="suositukset"/>
+    <input type="submit" value="Tallenna"/>
+</form>
+
+<script>
+    function addBeer() {
+        let nimi = document.getElementById("nimi").value;
+        let valmistaja = document.getElementById("valmistaja").value;
+        let tyyppi = document.getElementById("tyyppi").value;
+        let alkoholi = document.getElementById("alkoholi").value;
+        let kuvaus = document.getElementById("kuvaus").value;
+        let suositukset = document.getElementById("suositukset").value;
+        const xmlhttp = new XMLHttpRequest();
+        const url = "http://localhost:8082/api/oluet/?nimi=" + nimi
+                + "&valmistaja=" + valmistaja
+                + "&tyyppi=" + tyyppi
+                + "&alkoholi=" + alkoholi
+                + "&kuvaus=" + kuvaus
+                + "&suositukset=" + suositukset;
+        console.log(url);
+        xmlhttp.open("POST", url, true);
+        xmlhttp.send();
+    }
+</script>

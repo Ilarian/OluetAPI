@@ -1,14 +1,16 @@
-'use strict';
+'use strict'
 
 const
-    express = require('express'),
-    oluetService = require('../../../services/oluet');
+  express = require('express')
 
-let router = express.Router();
+const oluetService = require('../../../services/oluet')
 
-router.get('/', oluetService.getOluet);
-router.get('/nimi/:nimi', oluetService.getOlutByName);
-router.get('/valmistaja/:valmistaja', oluetService.getOlutByValmistaja);
-router.get('/haku/:haku', oluetService.getOlutByGeneralQuery);
+let router = express.Router()
 
-module.exports = router;
+router.get('/', oluetService.getOluet)
+router.get('/nimi/:nimi', oluetService.getOlutByName)
+router.get('/valmistaja/:valmistaja', oluetService.getOlutByValmistaja)
+router.get('/haku/:haku', oluetService.getOlutByGeneralQuery)
+router.post('/', oluetService.addOlut)
+
+module.exports = router
