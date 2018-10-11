@@ -1,5 +1,5 @@
 # OluetAPI
-![ipa-api](app/resources/ipa-api.png)
+![ipa-api](app/resources/grab.png)
 
  ## Mikä
  * nodejs
