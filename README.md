@@ -5,10 +5,10 @@
 Kaikki haut ovat case insensitive.
 #### GET api/oluet
 Palauttaa kaikki oluet kannasta.
-#### GET api/oluet/nimi/pikku pässi
-Palauttaa oluet, joiden nimi sisältää "pikku pässi".
-#### GET api/oluet/valmistaja/fiskarsin
-Palauttaa oluet, joiden valmistaja sisältää "fiskarsin".
+#### GET api/oluet/nimi/pikku
+Palauttaa oluet, joiden nimi sisältää "pikku".
+#### GET api/oluet/valmistaja/rekolan panimo
+Palauttaa oluet, joiden valmistaja sisältää "rekolan panimo".
 #### GET api/oluet/haku/ipa
 Yleishaku: palauttaa oluet, joiden nimi/valmistaja/tyyppi/kuvaus/suositukset sisältää "ipa".
 #### POST api/oluet/?nimi=Upouusi IPA&valmistaja=Esimerkkipanimo&tyyppi=IPA, ale&alkoholi=5&kuvaus=sitruksinen, hunajainen&suositukset=Grilliruoka
@@ -16,3 +16,6 @@ Lisää uuden oluen tietokantaan em. parametrein.
 
 ## Tietokanta
 Tietokantana toimii Firebase.
+
+## Käyttö
+`npm start` projektin juuressa käynnistää node serverin localhostin porttiin 8082. Firebase service account key pitää olla projektin juuressa.
