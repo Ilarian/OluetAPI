@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 function index (req, res) {
   res.render('home/index', {
@@ -22,4 +22,4 @@ module.exports = {
   index: index,
   info: info,
   add: add
-}
+};
