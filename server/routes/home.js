@@ -1,12 +1,12 @@
-'use strict'
+'use strict';
 
-const express = require('express')
-const homeController = require('../controllers/home')
+const express = require('express');
+const homeController = require('../controllers/home');
 
-let router = express.Router()
+let router = express.Router();
 
-router.get('/', homeController.index)
-router.get('/info', homeController.info)
-router.get('/add', homeController.add)
+router.get('/', homeController.index);
+router.get('/info', homeController.info);
+router.get('/add', homeController.add);
 
-module.exports = router
+module.exports = router;
